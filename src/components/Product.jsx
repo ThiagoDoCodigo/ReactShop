@@ -124,7 +124,7 @@ function Product({ listaCarrinho, setListaCarrinho }) {
               <p className="text-[#F6EFDF]">Voltar</p>{" "}
             </div>
             <div
-              className={`bg-[#141416]  p-2 flex flex-col rounded-sm shadow-md ${
+              className={`bg-[#141416] p-2 flex flex-col rounded-sm shadow-md ${
                 isMobile ? "w-full" : "w-auto min-h-[360px]"
               }`}
             >
@@ -134,7 +134,7 @@ function Product({ listaCarrinho, setListaCarrinho }) {
                     src={item.image}
                     alt={item.title}
                     className={` object-cover ${
-                      isMobile ? "w-full h-[270px]" : "w-[300px] h-[300px]"
+                      isMobile ? "w-full gap-[4px]" : "w-[300px] h-[300px]"
                     }`}
                   />
                 </div>
