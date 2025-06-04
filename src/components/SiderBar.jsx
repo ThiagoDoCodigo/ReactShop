@@ -1,6 +1,9 @@
 import { Search, ShoppingCart } from "lucide-react";
 import { useState, useEffect } from "react";
 import propTypes from "prop-types";
+import logo from "./assets/logo1.png";
+
+<img src={logo} alt="Logo React Shop" className="w-[70px]" />;
 
 function SideBar({ search, setSearch }) {
   const [isMobile, setIsMobile] = useState(false);
@@ -30,11 +33,7 @@ function SideBar({ search, setSearch }) {
           }`}
         >
           <div>
-            <img
-              src="./src/assets/logo1.png"
-              alt="Logo React Shop"
-              className="w-[70px]"
-            />
+            <img src={logo} alt="Logo React Shop" className="w-[70px]" />
           </div>
           <div
             className={`flex justify-between items-center bg-[#303030] p-2 rounded-md ${
