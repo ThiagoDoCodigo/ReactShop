@@ -124,8 +124,8 @@ function Product({ listaCarrinho, setListaCarrinho }) {
               <p className="text-[#F6EFDF]">Voltar</p>{" "}
             </div>
             <div
-              className={`bg-[#141416] min-h-[360px] p-2 flex flex-col rounded-sm shadow-md ${
-                isMobile ? "w-full" : "w-auto"
+              className={`bg-[#141416]  p-2 flex flex-col rounded-sm shadow-md ${
+                isMobile ? "w-full" : "w-auto min-h-[360px]"
               }`}
             >
               <div className="flex items-center gap-3 flex-wrap">
@@ -140,7 +140,7 @@ function Product({ listaCarrinho, setListaCarrinho }) {
                 </div>
                 <div
                   className={`flex flex-col justify-between ${
-                    isMobile ? "w-full gap-3 h-[160px]" : "w-[300px] h-[300px]"
+                    isMobile ? "w-full gap-3" : "w-[300px] h-[300px]"
                   }`}
                 >
                   <div className="flex flex-col">
