@@ -141,7 +141,7 @@ function Product({ listaCarrinho, setListaCarrinho }) {
                 </div>
                 <div
                   className={`flex flex-col justify-between ${
-                    isMobile ? "w-full gap-10" : "w-[300px] h-[300px]"
+                    isMobile ? "w-full gap-3 h-[160px]" : "w-[300px] h-[300px]"
                   }`}
                 >
                   <div className="flex flex-col">
