@@ -233,7 +233,7 @@ function Inicio({ search }) {
                   </div>
                 </div>
                 <button
-                  onClick={() => navigate(`/product/${item.id}`)}
+                  onClick={() => navigate(`/reactShop/product/${item.id}`)}
                   className="bg-[#FB8919] text-[#F6EFDF] font-bold w-full mt-2 p-2 rounded-sm hover:bg-[#F6EFDF] hover:text-[#FB8919] active:bg-[#dddddd]"
                 >
                   Detalhes

@@ -31,9 +31,9 @@ function Sections({ search, listaCarrinho, setListaCarrinho }) {
     <>
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Inicio search={search} />} />
+          <Route path="/reactShop" element={<Inicio search={search} />} />
           <Route
-            path="/product/:id"
+            path="/reactShop/product/:id"
             element={
               <Product
                 listaCarrinho={listaCarrinho}
