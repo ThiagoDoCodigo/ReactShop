@@ -113,7 +113,7 @@ function Product({ listaCarrinho, setListaCarrinho }) {
         ) : (
           <div
             className={`absolute top-0 left-0  w-[100vw] bg-[#303030] px-2 flex items-center justify-center z-30 ${
-              isMobile ? "h-[80vh]" : "h-[100vh]"
+              isMobile ? "h-[82vh]" : "h-[100vh]"
             }`}
           >
             <div
@@ -134,13 +134,13 @@ function Product({ listaCarrinho, setListaCarrinho }) {
                     src={item.image}
                     alt={item.title}
                     className={` object-cover ${
-                      isMobile ? "w-full h-[300px]" : "w-[300px] h-[300px]"
+                      isMobile ? "w-full h-[270px]" : "w-[300px] h-[300px]"
                     }`}
                   />
                 </div>
                 <div
                   className={`flex flex-col justify-between ${
-                    isMobile ? "w-full gap-3" : "w-[300px] h-[300px]"
+                    isMobile ? "w-full gap-3 " : "w-[300px] h-[300px]"
                   }`}
                 >
                   <div className="flex flex-col">
