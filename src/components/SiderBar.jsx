@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import propTypes from "prop-types";
 import logo from "./assets/logo1.png";
 
-<img src={logo} alt="Logo React Shop" className="w-[70px]" />;
-
 function SideBar({ search, setSearch }) {
   const [isMobile, setIsMobile] = useState(false);
 
