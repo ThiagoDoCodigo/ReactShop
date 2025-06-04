@@ -153,7 +153,7 @@ function Inicio({ search }) {
         <div
           className={`absolute left-0 w-full flex flex-col ${
             isMobile
-              ? "top-[140px] h-[calc(100vh-140px)]"
+              ? "top-[140px] h-[calc(88vh-140px)]"
               : "top-[70px]  h-[calc(100vh-70px)]"
           }`}
         >

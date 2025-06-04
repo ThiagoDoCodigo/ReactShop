@@ -96,7 +96,7 @@ function App() {
         </div>
         <div
           className={`absolute top-[67px] right-1 z-40  rounded-md border border-[#aaaaaa] bg-[#303030] flex-col ${
-            isMobile ? "w-[98vw] h-[92vh]" : "w-[350px] h-[626px]"
+            isMobile ? "w-[98vw] h-[80vh]" : "w-[350px] h-[626px]"
           }`}
           style={{
             display: open ? "flex" : "none",

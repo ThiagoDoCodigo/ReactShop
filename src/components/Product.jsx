@@ -112,7 +112,11 @@ function Product({ listaCarrinho, setListaCarrinho }) {
             <p className="text-[#f7f7f7]">Carregando...</p>
           </div>
         ) : (
-          <div className="absolute top-0 left-0 h-[100vh] w-[100vw] bg-[#303030] px-2 flex items-center justify-center z-30">
+          <div
+            className={`absolute top-0 left-0  w-[100vw] bg-[#303030] px-2 flex items-center justify-center z-30 ${
+              isMobile ? "h-[88vh]" : "h-[100vh]"
+            }`}
+          >
             <div
               className="absolute top-2 left-2 flex items-center gap-2 cursor-pointer hover:bg-[#141416] px-2 py-1 rounded-sm"
               onClick={() => navigate("/reactshop/")}
