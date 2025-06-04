@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import ProdutoTransition from "./ProdutoTransition";
 import PropTypes from "prop-types";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const API_URL = import.meta.env.VITE_URL_API;
@@ -105,7 +105,6 @@ function Product({ listaCarrinho, setListaCarrinho }) {
   return (
     <>
       <ProdutoTransition>
-        <ToastContainer />
         {!item || !item.rating ? (
           <div className="absolute top-0 left-0 h-[100vh] w-[100vw] bg-[#303030] px-4 flex items-center flex-col justify-center z-30">
             <RotateCw size={40} color="#f7f7f7" className="animate-spin" />
@@ -114,7 +113,7 @@ function Product({ listaCarrinho, setListaCarrinho }) {
         ) : (
           <div
             className={`absolute top-0 left-0  w-[100vw] bg-[#303030] px-2 flex items-center justify-center z-30 ${
-              isMobile ? "h-[88vh]" : "h-[100vh]"
+              isMobile ? "h-[80vh]" : "h-[100vh]"
             }`}
           >
             <div
@@ -134,8 +133,8 @@ function Product({ listaCarrinho, setListaCarrinho }) {
                   <img
                     src={item.image}
                     alt={item.title}
-                    className={`h-[300px] object-cover ${
-                      isMobile ? "w-full" : "w-[300px]"
+                    className={` object-cover ${
+                      isMobile ? "w-full h-[300px]" : "w-[300px] h-[300px]"
                     }`}
                   />
                 </div>

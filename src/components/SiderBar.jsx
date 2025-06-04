@@ -2,6 +2,7 @@ import { Search, ShoppingCart } from "lucide-react";
 import { useState, useEffect } from "react";
 import propTypes from "prop-types";
 import logo from "../assets/logo1.png";
+import { useLocation } from "react-router-dom";
 
 function SideBar({ search, setSearch }) {
   const [isMobile, setIsMobile] = useState(false);
@@ -18,11 +19,17 @@ function SideBar({ search, setSearch }) {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  const location = useLocation();
   return (
     <>
       <div
         className={`absolute top-0 left-0 w-full p-1 bg-[#141416] shadow-md z-10 flex items-center justify-between transition-opacity duration-300 ${
           isMobile ? " h-[140px]" : " h-[70px]"
+        } ${
+          location.pathname === "/ReactShop/" ||
+          location.pathname === "/reactshop/"
+            ? "opacity-100"
+            : "opacity-0"
         } `}
       >
         <div

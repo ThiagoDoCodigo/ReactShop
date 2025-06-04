@@ -6,7 +6,7 @@ import {
   ShoppingCart,
   Star,
 } from "lucide-react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
@@ -40,6 +40,8 @@ function Inicio({ search }) {
     fetchCategories();
   }, [categories]);
 
+  const toastId = "filtro-todos";
+
   const [lista, setLista] = useState([]);
   useEffect(() => {
     if (selectCategory === "Todos") {
@@ -48,6 +50,7 @@ function Inicio({ search }) {
           const response = await axios.get(`${API_URL}/products`);
           setLista(response.data);
           toast.success("Filtro aplicado com sucesso!", {
+            toastId,
             position: "bottom-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -60,6 +63,7 @@ function Inicio({ search }) {
         } catch (error) {
           console.error("Erro ao buscar produtos:", error);
           toast.error("Erro ao buscar produtos!", {
+            toastId,
             position: "bottom-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -143,7 +147,6 @@ function Inicio({ search }) {
 
   return (
     <PageTransition>
-      <ToastContainer />
       {!lista || !categories ? (
         <div className="absolute top-0 left-0 h-[100vh] w-[100vw] bg-[#303030] px-4 flex items-center flex-col justify-center z-30">
           <RotateCw size={40} color="#f7f7f7" className="animate-spin" />
