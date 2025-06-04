@@ -1,7 +1,7 @@
 import { Search, ShoppingCart } from "lucide-react";
 import { useState, useEffect } from "react";
 import propTypes from "prop-types";
-import logo from "./assets/logo1.png";
+import logo from "../assets/logo1.png";
 
 function SideBar({ search, setSearch }) {
   const [isMobile, setIsMobile] = useState(false);
