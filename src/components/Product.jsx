@@ -15,6 +15,30 @@ import "react-toastify/dist/ReactToastify.css";
 
 const API_URL = import.meta.env.VITE_URL_API;
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+
+    const updateIsMobile = () => {
+      setIsMobile(mediaQuery.matches);
+    };
+
+    updateIsMobile();
+
+    mediaQuery.addEventListener("change", updateIsMobile);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateIsMobile);
+    };
+  }, []);
+
+  return isMobile;
+}
+
 function formatarParaReal(valor) {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -27,20 +51,7 @@ function Product({ listaCarrinho, setListaCarrinho }) {
   const { id } = useParams();
   const [item, setItem] = useState({});
 
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -75,7 +86,7 @@ function Product({ listaCarrinho, setListaCarrinho }) {
     if (item) {
       toast.success("Item adicionado ao carrinho!", {
         position: "bottom-right",
-        autoClose: 3000,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -92,7 +103,7 @@ function Product({ listaCarrinho, setListaCarrinho }) {
     );
     toast.success("Item removido do carrinho!", {
       position: "bottom-right",
-      autoClose: 3000,
+      autoClose: 1500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -112,17 +123,17 @@ function Product({ listaCarrinho, setListaCarrinho }) {
           </div>
         ) : (
           <div
-            className={`absolute top-0 left-0  w-[100vw] bg-[#303030] px-2 flex items-center justify-center z-30 ${
-              isMobile ? "h-[82vh]" : "h-[100vh]"
+            className={`absolute top-0 left-0  w-[100vw] bg-[#303030] px-2 flex items-center justify-center z-30 overflow-y-auto ${
+              isMobile ? "h-[100vh]" : "h-[100vh]"
             }`}
           >
-            <div
-              className="absolute top-2 left-2 flex items-center gap-2 cursor-pointer hover:bg-[#141416] px-2 py-1 rounded-sm"
-              onClick={() => navigate("/reactshop/")}
+            <button
+              className="absolute top-2 left-2 flex items-center gap-2 cursor-pointer hover:bg-[#141416] active:bg-[#020203] active:scale-90 px-2 py-1 rounded-md"
+              onClick={() => navigate("/ReactShop/")}
             >
               <ChevronLeft className="text-[#F6EFDF] hover:text-[#FB8919] ml-[-7px]" />
-              <p className="text-[#F6EFDF]">Voltar</p>{" "}
-            </div>
+              <p className="text-[#F6EFDF]">Voltar</p>
+            </button>
             <div
               className={`bg-[#141416] p-2 flex flex-col rounded-sm shadow-md ${
                 isMobile ? "w-full" : "w-auto min-h-[360px]"
@@ -134,7 +145,7 @@ function Product({ listaCarrinho, setListaCarrinho }) {
                     src={item.image}
                     alt={item.title}
                     className={` object-cover ${
-                      isMobile ? "w-full gap-[4px]" : "w-[300px] h-[300px]"
+                      isMobile ? "w-full h-[400px]" : "w-[300px] h-[300px]"
                     }`}
                   />
                 </div>

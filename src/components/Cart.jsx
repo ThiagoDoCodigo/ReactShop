@@ -10,39 +10,50 @@ function formatarParaReal(valor) {
   }).format(valor);
 }
 
-function Cart({ open, setOpen, listaCarrinho, setListaCarrinho, valorTotal }) {
+function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+
+    const updateIsMobile = () => {
+      setIsMobile(mediaQuery.matches);
     };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
+    updateIsMobile();
+
+    mediaQuery.addEventListener("change", updateIsMobile);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      mediaQuery.removeEventListener("change", updateIsMobile);
     };
   }, []);
+
+  return isMobile;
+}
+
+function Cart({ open, setOpen, listaCarrinho, setListaCarrinho, valorTotal }) {
+  const isMobile = useIsMobile();
   return (
     <>
-      <div
+      <button
         onClick={() => setOpen(!open)}
         className="p-3 z-50 absolute top-2 right-2 rounded-md bg-[#2c2c2c] hover:bg-[#222226] hover:rounded-md cursor-pointer active:bg-[#070708] active:scale-90"
       >
         <ShoppingCart color={"#F6EFDF"} />
         {listaCarrinho.length > 0 && (
           <div className="absolute bottom-[-5px] right-[-5px] p-[2px] min-w-[20px] min-h-[20px] flex items-center justify-center bg-[#FB8919] rounded-full">
-            <button className="text-white text-[10px] text-center font-bold pointer-events-none select-none">
+            <div className="text-white text-[10px] text-center font-bold pointer-events-none select-none">
               {listaCarrinho.length}
-            </button>
+            </div>
           </div>
         )}
-      </div>
+      </button>
       <div
-        className={`absolute top-[67px] right-1 z-40  rounded-md border border-[#aaaaaa] bg-[#303030] flex-col ${
-          isMobile ? "w-[98vw] h-[80vh]" : "w-[350px] h-[626px]"
+        className={`absolute top-[68px] right-1 z-40  rounded-md border border-[#aaaaaa] bg-[#303030] flex-col ${
+          isMobile ? "w-[98vw] h-[92vh]" : "w-[350px] h-[626px]"
         }`}
         style={{
           display: open ? "flex" : "none",
@@ -100,7 +111,7 @@ function Cart({ open, setOpen, listaCarrinho, setListaCarrinho, valorTotal }) {
                           ),
                             toast.success("Item removido com sucesso!", {
                               position: "bottom-right",
-                              autoClose: 5000,
+                              autoClose: 1500,
                               hideProgressBar: false,
                               closeOnClick: true,
                               pauseOnHover: true,
@@ -134,6 +145,16 @@ function Cart({ open, setOpen, listaCarrinho, setListaCarrinho, valorTotal }) {
                     setListaCarrinho((prev) =>
                       prev.filter((item) => item.id !== cart.id)
                     );
+                    toast.success("Item removido com sucesso!", {
+                      position: "bottom-right",
+                      autoClose: 1500,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "dark",
+                    });
                   }}
                   className="bg-[#FB8919] text-[#F6EFDF] text-[12px] font-semibold p-1 rounded-md active:scale-90 hover:bg-[#F6EFDF] hover:text-[#FB8919]"
                 >

@@ -15,6 +15,30 @@ import PageTransition from "./PageTransition";
 import axios from "axios";
 const API_URL = import.meta.env.VITE_URL_API;
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+
+    const updateIsMobile = () => {
+      setIsMobile(mediaQuery.matches);
+    };
+
+    updateIsMobile();
+
+    mediaQuery.addEventListener("change", updateIsMobile);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateIsMobile);
+    };
+  }, []);
+
+  return isMobile;
+}
+
 function formatarParaReal(valor) {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -24,6 +48,7 @@ function formatarParaReal(valor) {
 
 function Inicio({ search }) {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [selectCategory, setSelectCategory] = useState("Todos");
 
   const [categories, setCategories] = useState([]);
@@ -38,7 +63,7 @@ function Inicio({ search }) {
     };
 
     fetchCategories();
-  }, [categories]);
+  }, []);
 
   const toastId = "filtro-todos";
 
@@ -50,9 +75,9 @@ function Inicio({ search }) {
           const response = await axios.get(`${API_URL}/products`);
           setLista(response.data);
           toast.success("Filtro aplicado com sucesso!", {
-            toastId,
+            toastId: `Filtro-${selectCategory}`,
             position: "bottom-right",
-            autoClose: 3000,
+            autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -65,7 +90,7 @@ function Inicio({ search }) {
           toast.error("Erro ao buscar produtos!", {
             toastId,
             position: "bottom-right",
-            autoClose: 3000,
+            autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -130,21 +155,6 @@ function Inicio({ search }) {
     }
   }, [search, lista]);
 
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
     <PageTransition>
       {!lista || !categories ? (
@@ -156,7 +166,7 @@ function Inicio({ search }) {
         <div
           className={`absolute left-0 w-full flex flex-col ${
             isMobile
-              ? "top-[140px] h-[calc(88vh-140px)]"
+              ? "top-[128px] h-[calc(100vh-128px)]"
               : "top-[70px]  h-[calc(100vh-70px)]"
           }`}
         >
@@ -189,60 +199,66 @@ function Inicio({ search }) {
             <div className="w-full h-[2px] bg-[#8b8b8b] mt-[-11px] mb-[10px]"></div>
           </div>
 
-          <div className="flex gap-2 flex-wrap w-full px-1 overflow-y-auto">
-            {listaFiltrada.map((item) => (
-              <div
-                key={item.id}
-                className={`bg-[#141416] h-[400px] flex flex-col p-2 rounded-sm shadow-md ${
-                  isMobile ? "w-full" : " w-[300px]"
-                }`}
-              >
-                <div className="w-full">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-[240px] object-cover"
-                  />
-                </div>
-                <div className="flex items-center p-1 mt-2">
-                  <p
-                    className="text-[#F6EFDF] font-semibold truncate"
-                    title={item.title}
-                  >
-                    {item.title}
-                  </p>
-                </div>
-                <div className="flex gap-1 items-center">
-                  <div className="flex items-center">
-                    <Banknote className="text-[#F6EFDF] mr-1" size={20} />
-                    <p className="text-[#F6EFDF] text-[14px]">Preço:</p>
-                  </div>
-                  <p className="text-green-600 text-[14px]">
-                    {formatarParaReal(item.price)}
-                  </p>
-                </div>
-                <div className="flex gap-4 items-center mt-2">
-                  <div className="flex items-center">
-                    <Star className="text-yellow-400 mr-1" size={16} />
-                    <p className="text-[#F6EFDF] text-[14px] mt-[2px]">
-                      {item.rating.rate}
-                    </p>
-                  </div>
-                  <div className="flex items-center">
-                    <ShoppingCart className="text-[#F6EFDF] mr-1" size={16} />
-                    <p className="text-[#F6EFDF] text-[14px] mt-[2px]">
-                      {item.rating.count}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => navigate(`/reactShop/product/${item.id}`)}
-                  className="bg-[#FB8919] text-[#F6EFDF] font-bold w-full mt-2 p-2 rounded-sm hover:bg-[#F6EFDF] hover:text-[#FB8919] active:bg-[#dddddd]"
+          <div className="flex gap-2 flex-wrap w-full px-1 overflow-y-auto py-2">
+            {listaFiltrada.length === 0 ? (
+              <p className="text-[#F6EFDF] text-[18px] w-full text-center">
+                Nenhum item encontrado
+              </p>
+            ) : (
+              listaFiltrada.map((item) => (
+                <div
+                  key={item.id}
+                  className={`bg-[#141416] h-[400px] flex flex-col p-2 rounded-sm shadow-md ${
+                    isMobile ? "w-full" : " w-[300px]"
+                  }`}
                 >
-                  Detalhes
-                </button>
-              </div>
-            ))}
+                  <div className="w-full">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-[240px] object-cover"
+                    />
+                  </div>
+                  <div className="flex items-center p-1 mt-2">
+                    <p
+                      className="text-[#F6EFDF] font-semibold truncate"
+                      title={item.title}
+                    >
+                      {item.title}
+                    </p>
+                  </div>
+                  <div className="flex gap-1 items-center">
+                    <div className="flex items-center">
+                      <Banknote className="text-[#F6EFDF] mr-1" size={20} />
+                      <p className="text-[#F6EFDF] text-[14px]">Preço:</p>
+                    </div>
+                    <p className="text-green-600 text-[14px]">
+                      {formatarParaReal(item.price)}
+                    </p>
+                  </div>
+                  <div className="flex gap-4 items-center mt-2">
+                    <div className="flex items-center">
+                      <Star className="text-yellow-400 mr-1" size={16} />
+                      <p className="text-[#F6EFDF] text-[14px] mt-[2px]">
+                        {item.rating.rate}
+                      </p>
+                    </div>
+                    <div className="flex items-center">
+                      <ShoppingCart className="text-[#F6EFDF] mr-1" size={16} />
+                      <p className="text-[#F6EFDF] text-[14px] mt-[2px]">
+                        {item.rating.count}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => navigate(`/ReactShop/product/${item.id}`)}
+                    className="bg-[#FB8919] text-[#F6EFDF] font-bold w-full mt-2 p-2 rounded-sm hover:bg-[#F6EFDF] hover:text-[#FB8919] active:bg-[#dddddd]"
+                  >
+                    Detalhes
+                  </button>
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}
